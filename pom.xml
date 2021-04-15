@@ -24,7 +24,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>com/melky/resume/Main.java</mainClass>
+                            <mainClass>com/melky/resume/Main</mainClass>
                             <name>resumeBot</name>
                         </program>
                     </programs>
