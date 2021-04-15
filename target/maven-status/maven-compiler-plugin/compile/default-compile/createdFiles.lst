@@ -1,0 +1,11 @@
+com\melky\resume\Main.class
+com\melky\resume\controller\WebHookController.class
+com\melky\resume\answer\ProjectsAnswer.class
+com\melky\resume\BotFacade.class
+com\melky\resume\answer\Callback.class
+com\melky\resume\answer\ResumeAnswer.class
+com\melky\resume\config\BotConfig.class
+com\melky\resume\menu\MainMenu.class
+com\melky\resume\Service\ReplyMessageService.class
+com\melky\resume\Service\LocaleMessageService.class
+com\melky\resume\Bot.class
