@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 public class Bot extends TelegramWebhookBot {
 
     private String botName;
-    private String botToken;
+    private String botToken = System.getenv("TOKEN");;
     private String webhookPath;
 
     private BotFacade botFacade;
