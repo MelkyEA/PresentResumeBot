@@ -1,2 +1,2 @@
-worker: sh target/bin/workerBot
+worker: sh target/bin/resumeBot
 heroku ps:scale worker=1
