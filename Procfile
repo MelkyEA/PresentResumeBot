@@ -1,1 +1,1 @@
-web: java -jar target/resume-1.0-SNAPSHOT.jar
+worker: java -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8 -cp ./target/classes:./target/dependency/* com/melky/resume/Main
