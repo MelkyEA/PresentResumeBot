@@ -1,2 +1,1 @@
-worker: sh target/bin/resumeBot
-heroku ps:scale worker=1
+web: sh target/bin/resumeBot
