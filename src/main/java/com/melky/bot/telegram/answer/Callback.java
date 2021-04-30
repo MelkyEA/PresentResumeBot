@@ -1,6 +1,6 @@
-package com.melky.resume.answer;
+package com.melky.bot.telegram.answer;
 
-import com.melky.resume.Service.ReplyMessageService;
+import com.melky.bot.telegram.Service.ReplyMessageService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

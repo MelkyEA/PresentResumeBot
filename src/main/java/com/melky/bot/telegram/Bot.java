@@ -1,15 +1,10 @@
-package com.melky.resume;
+package com.melky.bot.telegram;
 
-import org.springframework.util.ResourceUtils;
+
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class Bot extends TelegramWebhookBot {
 
@@ -36,7 +31,7 @@ public class Bot extends TelegramWebhookBot {
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         BotApiMethod<?> replyMessage = botFacade.handleUpdate(update);
-
+        System.out.println(update.getMessage().getChatId());
         return replyMessage;
     }
 
@@ -56,22 +51,22 @@ public class Bot extends TelegramWebhookBot {
         this.webhookPath = webhookPath;
     }
 
-    public void sendResume(long chatId){
-        SendDocument sendDocument = new SendDocument();
-        sendDocument.setChatId(String.valueOf(chatId));
+//    public void sendResume(long chatId){
+//        SendDocument sendDocument = new SendDocument();
+//        sendDocument.setChatId(String.valueOf(chatId));
+//
+//        try {
+//            File resume = null;
+//            resume = ResourceUtils.getFile("classpath:static/doc/resume.doc").;
+//
+//            sendDocument.setDocument(new InputFile(resume));
+//            execute(sendDocument);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
 
-        try {
-            File resume = null;
-            resume = ResourceUtils.getFile("classpath:static/doc/resume.doc");
-
-            sendDocument.setDocument(new InputFile(resume));
-            execute(sendDocument);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
 
 
-    }
 }

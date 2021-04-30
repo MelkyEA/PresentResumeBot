@@ -1,4 +1,4 @@
-package com.melky.resume.menu;
+package com.melky.bot.telegram.menu;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

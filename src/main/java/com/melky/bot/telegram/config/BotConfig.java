@@ -1,7 +1,7 @@
-package com.melky.resume.config;
+package com.melky.bot.telegram.config;
 
-import com.melky.resume.Bot;
-import com.melky.resume.BotFacade;
+import com.melky.bot.telegram.Bot;
+import com.melky.bot.telegram.BotFacade;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

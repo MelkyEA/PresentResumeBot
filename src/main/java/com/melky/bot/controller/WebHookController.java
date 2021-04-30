@@ -1,6 +1,6 @@
-package com.melky.resume.controller;
+package com.melky.bot.controller;
 
-import com.melky.resume.Bot;
+import com.melky.bot.telegram.Bot;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

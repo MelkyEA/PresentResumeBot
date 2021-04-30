@@ -1,4 +1,4 @@
-package com.melky.resume.Service;
+package com.melky.bot.telegram.Service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
