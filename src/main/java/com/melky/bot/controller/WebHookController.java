@@ -1,6 +1,10 @@
 package com.melky.bot.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.melky.bot.telegram.Bot;
+import com.melky.bot.vk.VKBot;
+import com.melky.bot.vk.handlers.CallbackAPIHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,13 +16,23 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class WebHookController {
 
     private final Bot bot;
+    private final VKBot vkBot;
+    private final Gson gson = new Gson();
 
-    public WebHookController(Bot bot) {
+    public WebHookController(Bot bot, VKBot vkBot) {
         this.bot = bot;
+        this.vkBot = vkBot;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/telegram", method = RequestMethod.POST)
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update){
         return bot.onWebhookUpdateReceived(update);
+    }
+
+    @RequestMapping(value = "/vk", method = RequestMethod.POST)
+    public String callbackReceived(@RequestBody String body){
+        JsonObject jsonObject =(JsonObject)this.gson.fromJson(body, JsonObject.class);
+        vkBot.receivedMessage(jsonObject);
+        return vkBot.getRequestAnswer();
     }
 }

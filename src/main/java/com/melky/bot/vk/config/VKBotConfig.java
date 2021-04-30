@@ -1,6 +1,7 @@
 package com.melky.bot.vk.config;
 
 import com.melky.bot.vk.VKBot;
+import com.melky.bot.vk.VKBotFacade;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +14,11 @@ public class VKBotConfig {
     private String groupId;
 
     @Bean
-    public VKBot vkBot(){
-        VKBot vkBot = new VKBot();
+    public VKBot vkBot(VKBotFacade vkBotFacade){
+        VKBot vkBot = new VKBot(vkBotFacade);
         vkBot.setVKToken(botToken);
         vkBot.setGroupID(Integer.parseInt(groupId));
+        vkBot.setRequestAnswer("ok");
         return vkBot;
     }
 

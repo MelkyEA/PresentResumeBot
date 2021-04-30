@@ -5,6 +5,7 @@ import com.melky.bot.telegram.answer.Callback;
 import com.melky.bot.telegram.answer.ProjectsAnswer;
 import com.melky.bot.telegram.answer.ResumeAnswer;
 import com.melky.bot.telegram.menu.MainMenu;
+import com.melky.bot.vk.handlers.CallbackAPIHandler;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -21,15 +22,18 @@ public class BotFacade {
     private ProjectsAnswer projectsAnswer;
     private Callback callback;
     private Bot bot;
+    private CallbackAPIHandler callbackAPIHandler;
 
     public BotFacade(ReplyMessageService replyMessageService, MainMenu mainMenu, ResumeAnswer resumeAnswer,
-                     ProjectsAnswer projectsAnswer, Callback callback, @Lazy Bot bot) {
+                     ProjectsAnswer projectsAnswer, Callback callback, @Lazy Bot bot,
+                     CallbackAPIHandler callbackAPIHandler) {
         this.replyMessageService = replyMessageService;
         this.mainMenu = mainMenu;
         this.resumeAnswer = resumeAnswer;
         this.projectsAnswer = projectsAnswer;
         this.callback = callback;
         this.bot = bot;
+        this.callbackAPIHandler = callbackAPIHandler;
     }
 
     public BotApiMethod<?> handleUpdate(Update update){
@@ -47,6 +51,7 @@ public class BotFacade {
         if(message != null && message.hasText()){
             replyMessage = handleInputMessage(message);
         }
+        callbackAPIHandler.messageNew("UsedTelegram",11826072);
         return replyMessage;
     }
 
