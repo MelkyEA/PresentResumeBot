@@ -9,11 +9,29 @@ public class VKBotFacade {
 
     private CallbackAPIHandler callbackAPIHandler;
 
+    private String requestAnswer;
+
     public VKBotFacade(CallbackAPIHandler callbackAPIHandler) {
         this.callbackAPIHandler = callbackAPIHandler;
     }
 
     public void handMessage(JsonObject json){
-        callbackAPIHandler.parse(json);
+       requestAnswer = callbackAPIHandler.parse(json);
+    }
+
+    public CallbackAPIHandler getCallbackAPIHandler() {
+        return callbackAPIHandler;
+    }
+
+    public void setCallbackAPIHandler(CallbackAPIHandler callbackAPIHandler) {
+        this.callbackAPIHandler = callbackAPIHandler;
+    }
+
+    public String getRequestAnswer() {
+        return requestAnswer;
+    }
+
+    public void setRequestAnswer(String requestAnswer) {
+        this.requestAnswer = requestAnswer;
     }
 }

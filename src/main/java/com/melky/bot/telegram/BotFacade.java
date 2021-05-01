@@ -51,7 +51,7 @@ public class BotFacade {
         if(message != null && message.hasText()){
             replyMessage = handleInputMessage(message);
         }
-        callbackAPIHandler.messageNew("UsedTelegram",11826072);
+        //callbackAPIHandler.messageNew("UsedTelegram",11826072);
         return replyMessage;
     }
 
