@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Component
 public class CallbackAPIHandler {
@@ -33,6 +30,7 @@ public class CallbackAPIHandler {
     private String confirmationCode;
     @Autowired
     private UserRepo userRepo;
+
 
     private final Gson gson = new Gson();
     private TransportClient transportClient;
@@ -81,64 +79,68 @@ public class CallbackAPIHandler {
 
     // Опредялем состояние бота по сообщению
     private void setState(String text, User user){
-        switch (text.toLowerCase()) {
-            case "начать":
-                user.setVkBotState(VKBotState.START);
-                break;
-            case "выбрать другой город":
-                user.setCity(null);
-            case "узнать погоду":
-                user.setVkBotState(user.getCity() == null ? VKBotState.CHANGE_CITY : VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "узнать список дел":
-                user.setVkBotState(VKBotState.SHOW_TODO_LIST);
-                break;
-            case "создать новый список дел":
-                user.setVkBotState(VKBotState.CREATE_TODO_LIST);
-                break;
-            case "москва":
-                user.setCity("Moscow");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "санкт-петербург":
-                user.setCity("Saint Petersburg");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "казань":
-                user.setCity("Kazan");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "екатеринбург":
-                user.setCity("Yekaterinburg");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "омск":
-                user.setCity("Omsk");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "пенза":
-                user.setCity("Penza");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "жуковский":
-                user.setCity("Zhukovskiy");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "самара":
-                user.setCity("Samara");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "уфа":
-                user.setCity("Ufa");
-                user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
-                break;
-            case "вернуться в главное меню":
-                user.setVkBotState(VKBotState.SHOW_MAIN_MENU);
-                break;
-            default:
-                user.setVkBotState(VKBotState.UNKNOWN_MESSAGE);
+        if(!user.getVkBotState().equals(VKBotState.CREATE_TODO_LIST) || text.toLowerCase().equals("конец")) {
+            switch (text.toLowerCase()) {
+                case "начать":
+                    user.setVkBotState(VKBotState.START);
+                    break;
+                case "выбрать другой город":
+                    user.setCity(null);
+                case "узнать погоду":
+                    user.setVkBotState(user.getCity() == null ? VKBotState.CHANGE_CITY : VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "конец":
+                case "узнать список дел":
+                    user.setVkBotState(VKBotState.SHOW_TODO_LIST);
+                    break;
+                case "создать новый список дел":
+                    user.setList("");
+                    user.setVkBotState(VKBotState.CREATE_TODO_LIST);
+                    break;
+                case "москва":
+                    user.setCity("Moscow");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "санкт-петербург":
+                    user.setCity("Saint Petersburg");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "казань":
+                    user.setCity("Kazan");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "екатеринбург":
+                    user.setCity("Yekaterinburg");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "омск":
+                    user.setCity("Omsk");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "пенза":
+                    user.setCity("Penza");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "жуковский":
+                    user.setCity("Zhukovskiy");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "самара":
+                    user.setCity("Samara");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "уфа":
+                    user.setCity("Ufa");
+                    user.setVkBotState(VKBotState.SHOW_CURRENT_WEATHER);
+                    break;
+                case "вернуться в главное меню":
+                    user.setVkBotState(VKBotState.SHOW_MAIN_MENU);
+                    break;
+                default:
+                    user.setVkBotState(VKBotState.UNKNOWN_MESSAGE);
 
 
+            }
         }
         messageNew(text, user);
     }
@@ -167,12 +169,24 @@ public class CallbackAPIHandler {
             user.setVkBotState(VKBotState.SHOW_MAIN_MENU);
         }
         if(state.equals(VKBotState.SHOW_TODO_LIST)){
-            reply = "Данная функция пока не реализована";
+
+            if(user.getList() != null && !user.getList().equals("")){
+                String[] list = user.getList().split("\n");
+                for(int i = 0; i < list.length; i++){
+                    reply += i+1 + ". " + list[i] + "\n";
+                }
+            } else {
+                reply = "Твой список дел еще не создан. Для создания списка воспользуйся кнопкой ниже.";
+            }
             user.setVkBotState(VKBotState.SHOW_MAIN_MENU);
         }
         if(state.equals(VKBotState.CREATE_TODO_LIST)){
-            reply = "Данная функция пока не реализована";
-            user.setVkBotState(VKBotState.SHOW_MAIN_MENU);
+            reply = "Отправь мне пункт, который ты хочешь добавить в список. Чтобы закончить добавление, " +
+                    "введи слово \"Конец\" ";
+
+            if(!text.equalsIgnoreCase("создать новый список дел"))
+            user.setList(user.getList() + text + "\n");
+            user.setVkBotState(VKBotState.CREATE_TODO_LIST);
         }
         if(state.equals(VKBotState.UNKNOWN_MESSAGE)){
             reply = "Я вас не понял, выберите кнопку ниже";

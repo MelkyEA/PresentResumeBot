@@ -2,8 +2,9 @@ package com.melky.bot.vk.model;
 
 import com.melky.bot.vk.VKBotState;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -11,6 +12,7 @@ public class User {
     private Long userId;
     private VKBotState vkBotState;
     private String city;
+    String list;
 
     public User() {
     }
@@ -42,5 +44,13 @@ public class User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getList() {
+        return list;
+    }
+
+    public void setList(String list) {
+        this.list = list;
     }
 }

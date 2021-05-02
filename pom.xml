@@ -64,7 +64,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.melky.resume.Main</mainClass>
+                    <mainClass>com.melky.bot.Main</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -79,7 +79,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.melky.resume.Main</mainClass>
+                            <mainClass>com.melky.bot.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
