@@ -3,8 +3,8 @@ package com.melky.bot.vk.model;
 import com.melky.bot.vk.VKBotState;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
+
 
 @Entity
 public class User {
@@ -12,7 +12,11 @@ public class User {
     private Long userId;
     private VKBotState vkBotState;
     private String city;
-    String list;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ElementToDoList> elementToDoListSet;
+    @Transient
+    private ArrayList<ElementToDoList> toDoLists;
+    private int editElement;
 
     public User() {
     }
@@ -46,11 +50,37 @@ public class User {
         this.city = city;
     }
 
-    public String getList() {
-        return list;
+    public Set<ElementToDoList> getElementToDoListSet() {
+        return elementToDoListSet;
     }
 
-    public void setList(String list) {
-        this.list = list;
+    public void setElementToDoListSet(Set<ElementToDoList> elementToDoListSet) {
+        this.elementToDoListSet = elementToDoListSet;
+    }
+
+    public ArrayList<ElementToDoList> getToDoLists() {
+        toDoLists = new ArrayList<>();
+        TreeMap<Long, ElementToDoList> mapOfList = new TreeMap<>();
+        if(getElementToDoListSet() != null && !getElementToDoListSet().isEmpty()) {
+            for (ElementToDoList element : getElementToDoListSet()) {
+                mapOfList.put(element.getId(), element);
+            }
+            for(Map.Entry<Long, ElementToDoList> entry : mapOfList.entrySet()) {
+                toDoLists.add(entry.getValue());
+            }
+        }
+        return toDoLists;
+    }
+
+    public void setToDoLists(ArrayList<ElementToDoList> toDoLists) {
+        this.toDoLists = toDoLists;
+    }
+
+    public int getEditElement() {
+        return editElement;
+    }
+
+    public void setEditElement(int editElement) {
+        this.editElement = editElement;
     }
 }

@@ -39,7 +39,7 @@ public class Weather {
         temp = listJson.getAsJsonObject("main").get("temp").getAsInt();
         feelsLike = listJson.getAsJsonObject("main").get("feels_like").getAsInt();
         windSpeed = listJson.getAsJsonObject("wind").get("speed").getAsInt();
-        return "Прогноз погоды на близжайшие 3 часа: \n" +
+        return  "Прогноз погоды на близжайшие 3 часа: \n" +
                 "Город: " + name + "\n" +
                 description.substring(0,1).toUpperCase() + description.substring(1) + "\n" +
                 "Температура: " + temp + "℃, ощущается как: " + feelsLike + "℃\n" +
